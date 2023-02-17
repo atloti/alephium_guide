@@ -28,6 +28,7 @@ jobs:
       - name: Publish web3-react package to npm
         run: |
           npm install
+          npm run build
           npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
