@@ -1,6 +1,7 @@
 import { connect } from '@alephium/get-extension-wallet'
 import type { Address } from '@alephium/web3';
 import { useContext } from '../components/AlephiumConnect';
+import { getAlephium } from '@alephium/get-extension-wallet';
 
 export function useConnect(
   networkId: string,
@@ -28,5 +29,15 @@ export function useConnect(
     return enabledAddress
   }
 
-  return { connect: connectAlephium }
+  function disconnectAlephium(): void {
+    const alephium = getAlephium()
+    if (alephium) {
+      alephium.disconnect()
+      context.setAddress('')
+      context.setSignerProvider(undefined)
+      context.setNetwork('')
+    }
+  }
+
+  return { connect: connectAlephium, disconnect: disconnectAlephium }
 }

@@ -17,11 +17,13 @@ import { useBalance } from '../../../hooks/useBalance';
 import { AnimatePresence } from 'framer-motion';
 import { Balance, BalanceContainer, LoadingBalance } from './styles';
 import { convertSetToAlph } from '@alephium/sdk'
+import { useConnect } from '../../../hooks/useConnect';
 
 const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
   const context = useContext();
   const { address } = useAddress(context.network)
   const { balance } = useBalance(address)
+  const { disconnect } = useConnect(context.network)
   const [shouldDisconnect, setShouldDisconnect] = useState(false);
 
   useEffect(() => {
@@ -33,7 +35,8 @@ const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
       context.setOpen(false);
     }
     return () => {
-      // FIXME: disconnect logic
+      disconnect()
+      context.setOpen(false);
     };
   }, [shouldDisconnect]);
 
