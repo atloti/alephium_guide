@@ -57,8 +57,7 @@ if (typeof window != 'undefined') {
       },
       scannable: false,
       extensionIsInstalled: () => {
-        return true
-        //return Boolean(alephium);
+        return Boolean(window['alephiumProviders'])
       },
     },
     {

@@ -1,9 +1,9 @@
-import { WalletProps, WalletOptions } from './../wallet';
+import { WalletProps } from './../wallet';
 
 import { isMobile } from '../../utils';
 import Logos from './../../assets/logos';
 
-export const injected = ({ chains }: WalletOptions): WalletProps => {
+export const injected = (_walletOptions): WalletProps => {
   const isInstalled = typeof window !== 'undefined'
 
   const shouldUseWalletConnect = isMobile() && !isInstalled;
@@ -14,16 +14,6 @@ export const injected = ({ chains }: WalletOptions): WalletProps => {
     shortName: 'browser',
     scannable: false,
     logos: { default: <Logos.AlephiumIcon /> },
-    installed: Boolean(!shouldUseWalletConnect ? isInstalled : false),
-    createConnector: () => {
-      //      const connector = new InjectedConnector({
-      //        chains,
-      //        options: { shimDisconnect: true },
-      //      });
-      //
-      //      return {
-      //        connector,
-      //      };
-    },
+    installed: Boolean(!shouldUseWalletConnect ? isInstalled : false)
   };
 };

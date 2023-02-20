@@ -27,6 +27,10 @@ const ConnectUsing: React.FC<{ connectorId: string }> = ({ connectorId }) => {
   );
 
   if (!connector) return <Alert>Connector not found</Alert>;
+
+  // TODO: Add WalletConnect
+  if (status === states.QRCODE) return <Alert>WalletConnect not available</Alert>;
+
   return (
     <AnimatePresence>
       {status === states.INJECTOR && (
