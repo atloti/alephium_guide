@@ -230,7 +230,7 @@ export function AlephiumConnectButton({
   if (!isMounted) return null;
 
   return (
-    <ResetContainer $useTheme={'retro'}>
+    <ResetContainer $useTheme={context.theme}>
       <ThemeContainer
         onClick={() => {
           if (onClick) {

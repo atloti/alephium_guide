@@ -156,6 +156,7 @@ const Modal: React.FC<ModalProps> = ({
   const currentDepth = context.route === routes.CONNECTORS ? 0 : 1;
   const prevDepth = usePrevious(currentDepth, currentDepth);
 
+
   useEffect(() => {
     setOpen(open);
     if (open) setInTransition(undefined);
@@ -246,7 +247,7 @@ const Modal: React.FC<ModalProps> = ({
   }
 
   const Content = (
-    <ResetContainer $useTheme={'retro'}>
+    <ResetContainer $useTheme={context.theme}>
       <ModalContainer
         role="dialog"
         style={{

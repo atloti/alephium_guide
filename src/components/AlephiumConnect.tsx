@@ -32,6 +32,8 @@ type ContextValue = {
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
   network: string;
   setNetwork: React.Dispatch<React.SetStateAction<string>>;
+  theme: string;
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const Context = createContext<ContextValue | null>(null);
@@ -43,10 +45,12 @@ export const useContext = () => {
 };
 
 type AlephiumConnectProviderProps = {
+  useTheme?: string;
   children?: React.ReactNode;
 };
 
 export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = ({
+  useTheme,
   children,
 }) => {
   // Only allow for mounting AlephiumConnectProvider once, so we avoid weird global
@@ -57,6 +61,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     );
   }
 
+  const defaultTheme = 'retro'
   const [open, setOpen] = useState<boolean>(false);
   const [connector, setConnector] = useState<string>('');
   const [route, setRoute] = useState<string>(routes.CONNECTORS);
@@ -64,6 +69,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
   const [network, setNetwork] = useState<string>('');
+  const [theme, setTheme] = useState<string>(useTheme ?? defaultTheme);
 
   useEffect(() => setErrorMessage(null), [route, open]);
 
@@ -81,6 +87,8 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     setSignerProvider,
     network,
     setNetwork,
+    theme,
+    setTheme,
 
     // Other configuration
     errorMessage,
