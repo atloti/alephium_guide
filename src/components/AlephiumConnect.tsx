@@ -61,7 +61,6 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     );
   }
 
-  const defaultTheme = 'retro'
   const [open, setOpen] = useState<boolean>(false);
   const [connector, setConnector] = useState<string>('');
   const [route, setRoute] = useState<string>(routes.CONNECTORS);
@@ -69,7 +68,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
   const [network, setNetwork] = useState<string>('');
-  const [theme, setTheme] = useState<string>(useTheme ?? defaultTheme);
+  const [theme, setTheme] = useState<string>(useTheme ?? 'default');
 
   useEffect(() => setErrorMessage(null), [route, open]);
 
