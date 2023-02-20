@@ -97,7 +97,11 @@ const Tooltip: React.FC<TooltipProps> = ({
       <Portal>
         <AnimatePresence>
           {currentRoute === context.route && !outOfBounds && isOpen && (
-            <ResetContainer $useTheme={'retro'}>
+            <ResetContainer
+              $useTheme={context.theme}
+              $useMode={context.mode}
+              $customTheme={context.customTheme}
+            >
               <TooltipWindow>
                 <TooltipContainer
                   role="tooltip"

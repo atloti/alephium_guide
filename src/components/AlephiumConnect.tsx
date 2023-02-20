@@ -5,9 +5,12 @@ import React, {
   useState,
 } from 'react';
 
+import defaultTheme from '../styles/defaultTheme';
+
 import AlephiumConnectModal from '../components/ConnectModal';
 import { ThemeProvider } from 'styled-components';
 import { SignerProvider } from '@alephium/web3';
+import { Theme, Mode, CustomTheme } from '../types';
 
 export const routes = {
   CONNECTORS: 'connectors',
@@ -32,8 +35,12 @@ type ContextValue = {
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
   network: string;
   setNetwork: React.Dispatch<React.SetStateAction<string>>;
-  theme: string;
-  setTheme: React.Dispatch<React.SetStateAction<string>>;
+  theme: Theme;
+  setTheme: React.Dispatch<React.SetStateAction<Theme>>;
+  mode: Mode;
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
+  customTheme: CustomTheme;
+  setCustomTheme: React.Dispatch<React.SetStateAction<CustomTheme>>;
 };
 
 const Context = createContext<ContextValue | null>(null);
@@ -45,12 +52,16 @@ export const useContext = () => {
 };
 
 type AlephiumConnectProviderProps = {
-  useTheme?: string;
+  useTheme?: Theme;
+  useMode?: Mode;
+  useCustomTheme?: CustomTheme;
   children?: React.ReactNode;
 };
 
 export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = ({
-  useTheme,
+  useTheme = 'auto',
+  useMode = 'auto',
+  useCustomTheme,
   children,
 }) => {
   // Only allow for mounting AlephiumConnectProvider once, so we avoid weird global
@@ -61,6 +72,12 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     );
   }
 
+  const [theme, setTheme] = useState<Theme>(useTheme);
+  const [mode, setMode] = useState<Mode>(useMode);
+  const [customTheme, setCustomTheme] = useState<CustomTheme>(
+    useCustomTheme ?? {}
+  );
+
   const [open, setOpen] = useState<boolean>(false);
   const [connector, setConnector] = useState<string>('');
   const [route, setRoute] = useState<string>(routes.CONNECTORS);
@@ -68,7 +85,6 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
   const [network, setNetwork] = useState<string>('');
-  const [theme, setTheme] = useState<string>(useTheme ?? 'default');
 
   useEffect(() => setErrorMessage(null), [route, open]);
 
@@ -88,6 +104,10 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     setNetwork,
     theme,
     setTheme,
+    mode,
+    setMode,
+    customTheme,
+    setCustomTheme,
 
     // Other configuration
     errorMessage,
@@ -97,11 +117,13 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     Context.Provider,
     { value },
     <>
-      <ThemeProvider theme={{
-        main: "mediumseagreen"
-      }}>
+      <ThemeProvider theme={defaultTheme}>
         {children}
-        <AlephiumConnectModal />
+        <AlephiumConnectModal
+          theme={theme}
+          mode={mode}
+          customTheme={customTheme}
+        />
       </ThemeProvider>
     </>
   );

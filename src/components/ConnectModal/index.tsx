@@ -6,9 +6,19 @@ import Connectors from '../Pages/Connectors';
 import ConnectUsing from './ConnectUsing';
 import Profile from '../Pages/Profile';
 import { useAddress } from '../../hooks/useAddress';
+import { Theme, Mode, CustomTheme } from '../../types';
+
+const customThemeDefault: object = {};
 
 const ConnectModal: React.FC<{
-}> = ({ }) => {
+  mode?: Mode;
+  theme?: Theme;
+  customTheme?: CustomTheme;
+}> = ({
+  mode = 'auto',
+  theme = 'auto',
+  customTheme = customThemeDefault
+}) => {
   const context = useContext();
   const { isConnected } = useAddress(context.network)
 
@@ -41,6 +51,10 @@ const ConnectModal: React.FC<{
       hide(); // Hide on connect
     }
   }, [isConnected]);
+
+  useEffect(() => context.setMode(mode), [mode]);
+  useEffect(() => context.setTheme(theme), [theme]);
+  useEffect(() => context.setCustomTheme(customTheme), [customTheme]);
 
   /* When pulling data into WalletConnect, it prioritises the og:title tag over the title tag */
   useEffect(() => {
