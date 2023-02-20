@@ -11,20 +11,5 @@ export const getWallets = ({
   return [
     injected({ chains }),
     walletConnect({ chains }),
-    // metaMask({ chains }),
-    //    coinbaseWallet({ chains }),
-    //    rainbow({ chains }),
-    //    argent({ chains }),
-    //    trust({ chains }),
-    //    ledger({ chains }),
-    //    imToken({ chains }),
-    //    brave({ chains }),
-    //    gnosisSafe({ chains }),
-    //    unstoppable({ chains }),
-    //    steak({ chains }),
-    //    //slope({ chains }),
-    //    onto({ chains }),
-    //    frontier({ chains }),
-    //    zerion({ chains }),
   ];
 };
