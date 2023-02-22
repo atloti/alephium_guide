@@ -9,7 +9,7 @@ import defaultTheme from '../styles/defaultTheme';
 
 import AlephiumConnectModal from '../components/ConnectModal';
 import { ThemeProvider } from 'styled-components';
-import { Account, SignerProvider } from '@alephium/web3';
+import { Account, KeyType, SignerProvider } from '@alephium/web3';
 import { Theme, Mode, CustomTheme } from '../types';
 
 export const routes = {
@@ -31,8 +31,11 @@ type ContextValue = {
   setConnector: React.Dispatch<React.SetStateAction<Connector>>;
   account?: Account;
   setAccount: React.Dispatch<React.SetStateAction<Account | undefined>>;
+  displayAccount?: (account: Account) => string
   signerProvider?: SignerProvider;
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
+  chainGroup?: number
+  keyType?: KeyType
   network: string;
   setNetwork: React.Dispatch<React.SetStateAction<string>>;
   theme: Theme;

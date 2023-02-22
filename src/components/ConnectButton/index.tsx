@@ -10,6 +10,7 @@ import ThemedButton, { ThemeContainer } from '../Common/ThemedButton';
 import { ResetContainer } from '../../styles';
 import { useAccount } from '../../hooks/useAccount';
 import { truncatedAddress } from '../../utils';
+import { Account } from '@alephium/web3';
 
 const contentVariants: Variants = {
   initial: {
@@ -87,6 +88,7 @@ const textVariants: Variants = {
 };
 
 type ConnectButtonRendererProps = {
+  displayAccount: (account: Account) => string
   children?: (renderProps: {
     show?: () => void;
     hide?: () => void;
@@ -98,6 +100,7 @@ type ConnectButtonRendererProps = {
 };
 
 const ConnectButtonRenderer: React.FC<ConnectButtonRendererProps> = ({
+  displayAccount,
   children,
 }) => {
   const isMounted = useIsMounted();
@@ -119,6 +122,8 @@ const ConnectButtonRenderer: React.FC<ConnectButtonRendererProps> = ({
   if (!children) return null;
   if (!isMounted) return null;
 
+  const displayAddress = account ? displayAccount(account) : undefined
+
   return (
     <>
       {children({
@@ -126,8 +131,8 @@ const ConnectButtonRenderer: React.FC<ConnectButtonRendererProps> = ({
         hide,
         isConnected: !!account,
         isConnecting: isConnecting,
-        address: account?.address,
-        truncatedAddress: account ? truncatedAddress(account.address) : undefined,
+        address: displayAddress,
+        truncatedAddress: displayAddress ? truncatedAddress(displayAddress) : undefined,
       })}
     </>
   );
@@ -137,9 +142,11 @@ ConnectButtonRenderer.displayName = 'AlephiumConnectButton.Custom';
 
 function AlephiumConnectButtonInner({
   label,
+  displayAccount
 }: {
   label?: string;
   separator?: string;
+  displayAccount: (account: Account) => string
 }) {
   const context = useContext()
   const { account } = useAccount(context.network);
@@ -175,7 +182,7 @@ function AlephiumConnectButtonInner({
                   position: 'relative',
                 }}
               >
-                {truncatedAddress(account.address)}
+                {truncatedAddress(displayAccount(account))}
               </TextContainer>
             </AnimatePresence>
           </div>
@@ -205,14 +212,14 @@ type AlephiumConnectButtonProps = {
 
   // Events
   onClick?: (open: () => void) => void;
+
+  displayAccount?: (account: Account) => string
 };
 
 export function AlephiumConnectButton({
-  // Options
   label,
-
-  // Events
   onClick,
+  displayAccount
 }: AlephiumConnectButtonProps) {
   const isMounted = useIsMounted();
 
@@ -252,6 +259,7 @@ export function AlephiumConnectButton({
         >
           <AlephiumConnectButtonInner
             label={label}
+            displayAccount={displayAccount ?? ((account: Account) => account.address)}
           />
         </ThemedButton>
       </ThemeContainer>

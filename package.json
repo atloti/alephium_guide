@@ -33,9 +33,9 @@
   ],
   "dependencies": {
     "buffer": "^6.0.3",
-    "@alephium/web3": "v0.5.0-rc.14",
+    "@alephium/web3": "v0.5.0-rc.15",
     "@alephium/sdk": "0.4.0",
-    "@alephium/get-extension-wallet": "0.5.0-rc.10",
+    "@alephium/get-extension-wallet": "0.5.0-rc.11",
     "detect-browser": "^5.3.0",
     "framer-motion": "^6.3.11",
     "qrcode": "^1.5.0",
