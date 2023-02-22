@@ -79,7 +79,11 @@ const ConnectWithInjector: React.FC<{
 }> = ({ connectorId, switchConnectMethod, forceState }) => {
   const context = useContext();
 
-  const { connect } = useConnect(context.network)
+  const { connect } = useConnect({
+    chainGroup: context.chainGroup,
+    keyType: context.keyType,
+    networkId: context.network
+  })
 
   const [id, setId] = useState(connectorId);
   const [showTryAgainTooltip, setShowTryAgainTooltip] = useState(false);
