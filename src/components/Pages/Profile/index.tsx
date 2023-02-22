@@ -23,9 +23,13 @@ const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
   const context = useContext();
   const { account } = useAccount(context.network)
   const { balance } = useBalance()
-  const { disconnect } = useConnect(context.network)
+  const { disconnect } = useConnect({
+    chainGroup: context.chainGroup,
+    keyType: context.keyType,
+    networkId: context.network
+  })
   const [shouldDisconnect, setShouldDisconnect] = useState(false);
-  const address = account?.address
+  const address = account ? (context.displayAccount ? context.displayAccount(account) : account.address) : undefined
 
   useEffect(() => {
     if (!shouldDisconnect) return;

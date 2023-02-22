@@ -31,8 +31,11 @@ type ContextValue = {
   setConnector: React.Dispatch<React.SetStateAction<Connector>>;
   account?: Account;
   setAccount: React.Dispatch<React.SetStateAction<Account | undefined>>;
+  displayAccount?: (account: Account) => string
   signerProvider?: SignerProvider;
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
+  chainGroup?: number
+  keyType?: number
   network: string;
   setNetwork: React.Dispatch<React.SetStateAction<string>>;
   theme: Theme;
