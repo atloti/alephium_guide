@@ -2,7 +2,7 @@ import { connect } from '@alephium/get-extension-wallet'
 import { useEffect } from 'react'
 import { useContext } from '../components/AlephiumConnect';
 
-export function useAddress(
+export function useAccount(
   networkId: string,
   onDisconnected: () => Promise<void> = () => Promise.resolve()
 ) {
@@ -11,7 +11,7 @@ export function useAddress(
   useEffect(() => {
     const handler = async () => {
       const windowAlephium = await connect({ showList: false })
-      const enabledAddress = await windowAlephium?.enable({ onDisconnected, networkId: networkId })
+      const enabledAccount = await windowAlephium?.enable({ onDisconnected, networkId: networkId })
 
       if (windowAlephium) {
         context.setSignerProvider(windowAlephium)
@@ -20,11 +20,11 @@ export function useAddress(
         }
       }
 
-      enabledAddress && context.setAddress(enabledAddress)
+      enabledAccount && context.setAccount(enabledAccount)
     }
 
     handler()
   }, [])
 
-  return { address: context.address, isConnected: !!context.address }
+  return { account: context.account, isConnected: !!context.account }
 }

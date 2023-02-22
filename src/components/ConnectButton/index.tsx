@@ -8,7 +8,7 @@ import { routes, useContext } from '../AlephiumConnect';
 import { AnimatePresence, Variants } from 'framer-motion';
 import ThemedButton, { ThemeContainer } from '../Common/ThemedButton';
 import { ResetContainer } from '../../styles';
-import { useAddress } from '../../hooks/useAddress';
+import { useAccount } from '../../hooks/useAccount';
 import { truncatedAddress } from '../../utils';
 
 const contentVariants: Variants = {
@@ -103,8 +103,7 @@ const ConnectButtonRenderer: React.FC<ConnectButtonRendererProps> = ({
   const isMounted = useIsMounted();
   const context = useContext();
 
-  //const { address, isConnected, isConnecting } = useAccount();
-  const { address } = useAddress(context.network)
+  const { account } = useAccount(context.network)
   const isConnected = false
   const isConnecting = false
 
@@ -125,10 +124,10 @@ const ConnectButtonRenderer: React.FC<ConnectButtonRendererProps> = ({
       {children({
         show,
         hide,
-        isConnected: !!address,
+        isConnected: !!account,
         isConnecting: isConnecting,
-        address: address,
-        truncatedAddress: address ? address : undefined,
+        address: account?.address,
+        truncatedAddress: account ? truncatedAddress(account.address) : undefined,
       })}
     </>
   );
@@ -143,11 +142,11 @@ function AlephiumConnectButtonInner({
   separator?: string;
 }) {
   const context = useContext()
-  const { address, isConnected } = useAddress(context.network);
+  const { account } = useAccount(context.network);
 
   return (
     <AnimatePresence initial={false}>
-      {isConnected ? (
+      {!!account ? (
         <TextContainer
           key="connectedText"
           initial={'initial'}
@@ -176,7 +175,7 @@ function AlephiumConnectButtonInner({
                   position: 'relative',
                 }}
               >
-                {truncatedAddress(address)}
+                {truncatedAddress(account.address)}
               </TextContainer>
             </AnimatePresence>
           </div>
@@ -218,7 +217,7 @@ export function AlephiumConnectButton({
   const isMounted = useIsMounted();
 
   const context = useContext();
-  const { isConnected } = useAddress(context.network, () => {
+  const { isConnected } = useAccount(context.network, () => {
     return Promise.resolve()
   })
 

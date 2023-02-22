@@ -1,5 +1,5 @@
 import { connect } from '@alephium/get-extension-wallet'
-import type { Address } from '@alephium/web3';
+import type { Account } from '@alephium/web3';
 import { useContext } from '../components/AlephiumConnect';
 import { getAlephium } from '@alephium/get-extension-wallet';
 
@@ -8,12 +8,12 @@ export function useConnect(
   onDisconnected: () => Promise<void> = () => Promise.resolve()
 ) {
   const context = useContext()
-  const connectAlephium: () => Promise<Address | undefined> = async () => {
+  const connectAlephium: () => Promise<Account | undefined> = async () => {
     const windowAlephium = await connect({
       include: ['alephium']
     })
 
-    const enabledAddress = await windowAlephium?.enable({
+    const enabledAccount = await windowAlephium?.enable({
       onDisconnected,
       networkId: networkId
     })
@@ -25,15 +25,15 @@ export function useConnect(
       }
     }
 
-    enabledAddress && context.setAddress(enabledAddress)
-    return enabledAddress
+    enabledAccount && context.setAccount(enabledAccount)
+    return enabledAccount
   }
 
   function disconnectAlephium(): void {
     const alephium = getAlephium()
     if (alephium) {
       alephium.disconnect()
-      context.setAddress('')
+      context.setAccount(undefined)
       context.setSignerProvider(undefined)
       context.setNetwork('')
     }

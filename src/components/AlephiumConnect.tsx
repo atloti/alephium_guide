@@ -9,7 +9,7 @@ import defaultTheme from '../styles/defaultTheme';
 
 import AlephiumConnectModal from '../components/ConnectModal';
 import { ThemeProvider } from 'styled-components';
-import { SignerProvider } from '@alephium/web3';
+import { Account, SignerProvider } from '@alephium/web3';
 import { Theme, Mode, CustomTheme } from '../types';
 
 export const routes = {
@@ -27,10 +27,10 @@ type ContextValue = {
   route: string;
   setRoute: React.Dispatch<React.SetStateAction<string>>;
   errorMessage: Error;
-  connector: string;
+  connector: Connector;
   setConnector: React.Dispatch<React.SetStateAction<Connector>>;
-  address: string;
-  setAddress: React.Dispatch<React.SetStateAction<string>>;
+  account?: Account;
+  setAccount: React.Dispatch<React.SetStateAction<Account | undefined>>;
   signerProvider?: SignerProvider;
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
   network: string;
@@ -81,7 +81,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [open, setOpen] = useState<boolean>(false);
   const [connector, setConnector] = useState<string>('');
   const [route, setRoute] = useState<string>(routes.CONNECTORS);
-  const [address, setAddress] = useState<string>('');
+  const [account, setAccount] = useState<Account>();
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
   const [network, setNetwork] = useState<string>('');
@@ -96,8 +96,8 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     setRoute,
     connector,
     setConnector,
-    address,
-    setAddress,
+    account,
+    setAccount,
     signerProvider,
     setSignerProvider,
     network,

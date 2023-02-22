@@ -5,7 +5,7 @@ import Modal from '../Common/Modal';
 import Connectors from '../Pages/Connectors';
 import ConnectUsing from './ConnectUsing';
 import Profile from '../Pages/Profile';
-import { useAddress } from '../../hooks/useAddress';
+import { useAccount } from '../../hooks/useAccount';
 import { Theme, Mode, CustomTheme } from '../../types';
 
 const customThemeDefault: object = {};
@@ -20,7 +20,7 @@ const ConnectModal: React.FC<{
   customTheme = customThemeDefault
 }) => {
   const context = useContext();
-  const { isConnected } = useAddress(context.network)
+  const { isConnected } = useAccount(context.network)
 
   const closeable = true;
 

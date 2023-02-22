@@ -11,7 +11,7 @@ import Button from '../../Common/Button';
 
 import { DisconnectIcon } from '../../../assets/icons';
 import CopyToClipboard from '../../Common/CopyToClipboard';
-import { useAddress } from '../../../hooks/useAddress';
+import { useAccount } from '../../../hooks/useAccount';
 import { truncatedAddress } from '../../../utils';
 import { useBalance } from '../../../hooks/useBalance';
 import { AnimatePresence } from 'framer-motion';
@@ -21,10 +21,11 @@ import { useConnect } from '../../../hooks/useConnect';
 
 const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
   const context = useContext();
-  const { address } = useAddress(context.network)
-  const { balance } = useBalance(address)
+  const { account } = useAccount(context.network)
+  const { balance } = useBalance()
   const { disconnect } = useConnect(context.network)
   const [shouldDisconnect, setShouldDisconnect] = useState(false);
+  const address = account?.address
 
   useEffect(() => {
     if (!shouldDisconnect) return;
