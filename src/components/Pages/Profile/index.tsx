@@ -16,7 +16,7 @@ import { truncatedAddress } from '../../../utils';
 import { useBalance } from '../../../hooks/useBalance';
 import { AnimatePresence } from 'framer-motion';
 import { Balance, BalanceContainer, LoadingBalance } from './styles';
-import { convertSetToAlph } from '@alephium/sdk'
+import { prettifyAttoAlphAmount } from '@alephium/web3'
 import { useConnect } from '../../../hooks/useConnect';
 
 const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
@@ -64,7 +64,7 @@ const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {convertSetToAlph(BigInt(balance.balance))} ALPH
+                  {prettifyAttoAlphAmount(BigInt(balance.balance))} ALPH
                 </Balance>
               )}
               {!balance && (
