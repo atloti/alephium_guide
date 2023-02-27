@@ -16,7 +16,7 @@ export function useConnect(
       alephium.disconnect()
       context.setAccount(undefined)
       context.setSignerProvider(undefined)
-      context.setNetwork('')
+      context.setNetwork(undefined)
     }
   }, [context])
 
