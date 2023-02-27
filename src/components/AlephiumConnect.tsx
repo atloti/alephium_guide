@@ -89,6 +89,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
   const [network, setNetwork] = useState<string>('');
 
+  useEffect(() => setTheme(theme), [theme]);
   useEffect(() => setErrorMessage(null), [route, open]);
 
   // Check if chain is supported, elsewise redirect to switches page
