@@ -36,8 +36,8 @@ type ContextValue = {
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
   chainGroup?: number
   keyType?: KeyType
-  network: string;
-  setNetwork: React.Dispatch<React.SetStateAction<string>>;
+  network: string | undefined;
+  setNetwork: React.Dispatch<React.SetStateAction<string | undefined>>;
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
   mode: Mode;
@@ -87,7 +87,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [account, setAccount] = useState<Account>();
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
-  const [network, setNetwork] = useState<string>('');
+  const [network, setNetwork] = useState<string | undefined>(undefined);
 
   useEffect(() => setTheme(theme), [theme]);
   useEffect(() => setErrorMessage(null), [route, open]);
