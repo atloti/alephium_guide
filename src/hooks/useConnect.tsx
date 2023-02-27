@@ -1,7 +1,6 @@
-import { connect } from '@alephium/get-extension-wallet'
-import type { Account, EnableOptionsBase } from '@alephium/web3';
+import { getDefaultAlephiumWallet } from '@alephium/get-extension-wallet'
+import type { EnableOptionsBase } from '@alephium/web3';
 import { useContext } from '../components/AlephiumConnect';
-import { getAlephium } from '@alephium/get-extension-wallet';
 import { useCallback } from 'react';
 
 export type ConnectOptions = Omit<EnableOptionsBase, 'onDisconnected'>
@@ -12,7 +11,7 @@ export function useConnect(
   const context = useContext()
 
   const disconnectAlephium = useCallback(() => {
-    const alephium = getAlephium()
+    const alephium = getDefaultAlephiumWallet()
     if (alephium) {
       alephium.disconnect()
       context.setAccount(undefined)
@@ -22,20 +21,24 @@ export function useConnect(
   }, [context])
 
   const connectAlephium = useCallback(async () => {
-    const windowAlephium = await connect({
-      include: ['alephium']
-    })
+    const windowAlephium = getDefaultAlephiumWallet()
 
-    const enabledAccount = await windowAlephium?.enable({...options, showModal: false, onDisconnected: disconnectAlephium})
+    if (windowAlephium === undefined) {
+      return undefined
+    }
 
-    if (windowAlephium) {
+    const enabledAccount = await windowAlephium?.enable({
+      ...options, onDisconnected: disconnectAlephium
+    }).catch(() => undefined) // Need to catch the exception here
+
+    if (windowAlephium && enabledAccount) {
       context.setSignerProvider(windowAlephium)
       if (windowAlephium.connectedNetworkId) {
         context.setNetwork(windowAlephium.connectedNetworkId)
       }
+      context.setAccount(enabledAccount)
     }
 
-    enabledAccount && context.setAccount(enabledAccount)
     return enabledAccount
   }, [context])
 

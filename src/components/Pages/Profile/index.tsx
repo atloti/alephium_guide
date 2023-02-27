@@ -21,7 +21,7 @@ import { useConnect } from '../../../hooks/useConnect';
 
 const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
   const context = useContext();
-  const { account } = useAccount(context.network)
+  const { account } = useAccount()
   const { balance } = useBalance()
   const { disconnect } = useConnect({
     chainGroup: context.chainGroup,

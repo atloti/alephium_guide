@@ -1,6 +1,5 @@
 import React from 'react';
 import { detect } from 'detect-browser';
-import { getAlephium } from '@alephium/get-extension-wallet'
 
 export const detectBrowser = () => {
   const browser = detect();
