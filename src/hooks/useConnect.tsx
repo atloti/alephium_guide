@@ -11,27 +11,30 @@ export function useConnect(
   const context = useContext()
 
   const disconnectAlephium = useCallback(() => {
-    const alephium = getDefaultAlephiumWallet()
-    if (alephium) {
-      alephium.disconnect()
-      context.setAccount(undefined)
-      context.setSignerProvider(undefined)
-      context.setNetwork(undefined)
-    }
+    getDefaultAlephiumWallet().then(alephium => {
+      if (!!alephium) {
+        alephium.disconnect()
+        context.setAccount(undefined)
+        context.setSignerProvider(undefined)
+        context.setNetwork(undefined)
+      }
+    }).catch((error: any) => {
+      console.error(error)
+    })
   }, [context])
 
   const connectAlephium = useCallback(async () => {
-    const windowAlephium = getDefaultAlephiumWallet()
+    const windowAlephium = await getDefaultAlephiumWallet()
 
     if (windowAlephium === undefined) {
       return undefined
     }
 
-    const enabledAccount = await windowAlephium?.enable({
+    const enabledAccount = await windowAlephium.enable({
       ...options, onDisconnected: disconnectAlephium
     }).catch(() => undefined) // Need to catch the exception here
 
-    if (windowAlephium && enabledAccount) {
+    if (enabledAccount) {
       context.setSignerProvider(windowAlephium)
       if (windowAlephium.connectedNetworkId) {
         context.setNetwork(windowAlephium.connectedNetworkId)

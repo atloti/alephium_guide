@@ -9,7 +9,7 @@ export function useAccount(
 
   useEffect(() => {
     const handler = async () => {
-      const windowAlephium = getDefaultAlephiumWallet()
+      const windowAlephium = await getDefaultAlephiumWallet()
       const enabledAccount = await windowAlephium?.enableIfConnected({ onDisconnected, networkId: context.network })
 
       if (windowAlephium) {
