@@ -10,15 +10,14 @@ export function useAccount(
   useEffect(() => {
     const handler = async () => {
       const windowAlephium = await getDefaultAlephiumWallet()
-      const enabledAccount = await windowAlephium?.enableIfConnected({ onDisconnected, networkId: context.network })
+      const enabledAccount = await windowAlephium?.enableIfConnected({
+        onDisconnected,
+        networkId: context.network,
+        chainGroup: context.chainGroup,
+        keyType: context.keyType
+      })
 
-      if (windowAlephium) {
-        context.setSignerProvider(windowAlephium)
-        if (windowAlephium.connectedNetworkId) {
-          context.setNetwork(windowAlephium.connectedNetworkId)
-        }
-      }
-
+      windowAlephium && context.setSignerProvider(windowAlephium)
       enabledAccount && context.setAccount(enabledAccount)
     }
 
