@@ -16,7 +16,6 @@ export function useConnect(
         alephium.disconnect()
         context.setAccount(undefined)
         context.setSignerProvider(undefined)
-        context.setNetwork(undefined)
       }
     }).catch((error: any) => {
       console.error(error)
@@ -36,9 +35,6 @@ export function useConnect(
 
     if (enabledAccount) {
       context.setSignerProvider(windowAlephium)
-      if (windowAlephium.connectedNetworkId) {
-        context.setNetwork(windowAlephium.connectedNetworkId)
-      }
       context.setAccount(enabledAccount)
     }
 
