@@ -25,11 +25,15 @@ export function useConnect(
   const connectAlephium = useCallback(async () => {
     const windowAlephium = await getDefaultAlephiumWallet()
 
-    const enabledAccount = await windowAlephium?.enable({
+    if (windowAlephium === undefined) {
+      return undefined
+    }
+
+    const enabledAccount = await windowAlephium.enable({
       ...options, onDisconnected: disconnectAlephium
     }).catch(() => undefined) // Need to catch the exception here
 
-    if (windowAlephium && enabledAccount) {
+    if (enabledAccount) {
       context.setSignerProvider(windowAlephium)
       context.setAccount(enabledAccount)
     }
