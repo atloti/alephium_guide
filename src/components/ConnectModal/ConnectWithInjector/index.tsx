@@ -124,8 +124,8 @@ const ConnectWithInjector: React.FC<{
     connect().then((address) => {
       if (!!address) {
         setStatus(states.CONNECTED)
-        context.setOpen(false)
       }
+      context.setOpen(false)
     })
   };
 
