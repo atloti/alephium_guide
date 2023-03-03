@@ -36,8 +36,7 @@ type ContextValue = {
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
   chainGroup?: number
   keyType?: KeyType
-  network: string;
-  setNetwork: React.Dispatch<React.SetStateAction<string>>;
+  network?: string;
   theme: Theme;
   setTheme: React.Dispatch<React.SetStateAction<Theme>>;
   mode: Mode;
@@ -58,6 +57,9 @@ type AlephiumConnectProviderProps = {
   useTheme?: Theme;
   useMode?: Mode;
   useCustomTheme?: CustomTheme;
+  network?: string;
+  chainGroup?: number;
+  keyType?: KeyType;
   children?: React.ReactNode;
 };
 
@@ -65,6 +67,9 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   useTheme = 'auto',
   useMode = 'auto',
   useCustomTheme,
+  network,
+  chainGroup,
+  keyType,
   children,
 }) => {
   // Only allow for mounting AlephiumConnectProvider once, so we avoid weird global
@@ -87,8 +92,8 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   const [account, setAccount] = useState<Account>();
   const [errorMessage, setErrorMessage] = useState<Error>('');
   const [signerProvider, setSignerProvider] = useState<SignerProvider | undefined>()
-  const [network, setNetwork] = useState<string>('');
 
+  useEffect(() => setTheme(theme), [theme]);
   useEffect(() => setErrorMessage(null), [route, open]);
 
   // Check if chain is supported, elsewise redirect to switches page
@@ -104,14 +109,14 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     signerProvider,
     setSignerProvider,
     network,
-    setNetwork,
     theme,
     setTheme,
     mode,
     setMode,
     customTheme,
     setCustomTheme,
-
+    chainGroup,
+    keyType,
     // Other configuration
     errorMessage,
   };

@@ -20,7 +20,7 @@ const ConnectModal: React.FC<{
   customTheme = customThemeDefault
 }) => {
   const context = useContext();
-  const { isConnected } = useAccount(context.network)
+  const { isConnected } = useAccount()
 
   const closeable = true;
 

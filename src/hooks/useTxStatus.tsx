@@ -1,4 +1,4 @@
-import { getAlephium } from '@alephium/get-extension-wallet'
+import { getDefaultAlephiumWallet } from '@alephium/get-extension-wallet'
 import { node, SubscribeOptions, subscribeToTxStatus, TxStatusSubscription, web3 } from '@alephium/web3'
 import { useEffect, useState } from 'react'
 
@@ -8,12 +8,6 @@ export function useTxStatus(
 ) {
   const [txStatus, setTxStatus] = useState<node.TxStatus | undefined>(undefined)
 
-  const alephium = getAlephium()
-  if (!alephium?.nodeProvider) {
-    throw Error('Alephium object is not initialized')
-  }
-
-  web3.setCurrentNodeProvider(alephium.nodeProvider)
   const subscriptionOptions: SubscribeOptions<node.TxStatus> = {
     pollingInterval: 3000,
     messageCallback: async (status: node.TxStatus): Promise<void> => {
@@ -31,16 +25,25 @@ export function useTxStatus(
   }
 
   useEffect(() => {
-    var subscription: TxStatusSubscription | undefined = undefined
-    if (subscriptionOptions) {
-      subscription = subscribeToTxStatus(subscriptionOptions, txId)
-    }
-
-    return () => {
-      if (subscription) {
-        subscription.unsubscribe()
+    getDefaultAlephiumWallet().then(alephium => {
+      if (!alephium?.nodeProvider) {
+        throw Error('Alephium object is not initialized')
       }
-    }
+      web3.setCurrentNodeProvider(alephium.nodeProvider)
+
+      var subscription: TxStatusSubscription | undefined = undefined
+      if (subscriptionOptions) {
+        subscription = subscribeToTxStatus(subscriptionOptions, txId)
+      }
+
+      return () => {
+        if (subscription) {
+          subscription.unsubscribe()
+        }
+      }
+    }).then((error: any) => {
+      console.error(error)
+    })
   }, [])
 
   return { txStatus }
