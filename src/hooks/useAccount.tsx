@@ -13,7 +13,7 @@ export function useAccount(
       const enabledAccount = await windowAlephium?.enableIfConnected({
         onDisconnected,
         networkId: context.network,
-        chainGroup: context.chainGroup,
+        chainGroup: context.addressGroup,
         keyType: context.keyType
       })
 

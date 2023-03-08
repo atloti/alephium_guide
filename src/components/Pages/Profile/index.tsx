@@ -24,7 +24,7 @@ const Profile: React.FC<{ closeModal?: () => void }> = ({ closeModal }) => {
   const { account } = useAccount()
   const { balance } = useBalance()
   const { disconnect } = useConnect({
-    chainGroup: context.chainGroup,
+    chainGroup: context.addressGroup,
     keyType: context.keyType,
     networkId: context.network
   })

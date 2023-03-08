@@ -34,7 +34,7 @@ type ContextValue = {
   displayAccount?: (account: Account) => string
   signerProvider?: SignerProvider;
   setSignerProvider: React.Dispatch<React.SetStateAction<SignerProvider | undefined>>;
-  chainGroup?: number
+  addressGroup?: number
   keyType?: KeyType
   network?: string;
   theme: Theme;
@@ -58,7 +58,7 @@ type AlephiumConnectProviderProps = {
   useMode?: Mode;
   useCustomTheme?: CustomTheme;
   network?: string;
-  chainGroup?: number;
+  addressGroup?: number;
   keyType?: KeyType;
   children?: React.ReactNode;
 };
@@ -68,7 +68,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
   useMode = 'auto',
   useCustomTheme,
   network,
-  chainGroup,
+  addressGroup,
   keyType,
   children,
 }) => {
@@ -115,7 +115,7 @@ export const AlephiumConnectProvider: React.FC<AlephiumConnectProviderProps> = (
     setMode,
     customTheme,
     setCustomTheme,
-    chainGroup,
+    addressGroup,
     keyType,
     // Other configuration
     errorMessage,
