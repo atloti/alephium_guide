@@ -80,7 +80,7 @@ const ConnectWithInjector: React.FC<{
   const context = useContext();
 
   const { connect } = useConnect({
-    chainGroup: context.chainGroup,
+    chainGroup: context.addressGroup,
     keyType: context.keyType,
     networkId: context.network
   })
