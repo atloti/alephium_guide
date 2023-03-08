@@ -16,7 +16,7 @@ export function useBalance() {
     }
 
     handler()
-  }, [])
+  }, [context.signerProvider?.nodeProvider, context.account])
 
   return { balance }
 }
