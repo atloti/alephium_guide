@@ -2,7 +2,7 @@ import { Balance } from '@alephium/web3/dist/src/api/api-alephium';
 import { useEffect, useState } from 'react';
 import { useContext } from '../components/AlephiumConnect';
 
-export function useBalance<T>(value?: T) {
+export function useBalance() {
   const context = useContext()
   const [balance, setBalance] = useState<Balance>()
 
@@ -16,7 +16,7 @@ export function useBalance<T>(value?: T) {
     }
 
     handler()
-  }, [context.signerProvider?.nodeProvider, context.account, value])
+  }, [context.signerProvider?.nodeProvider, context.account])
 
   return { balance }
 }
